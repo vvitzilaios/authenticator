@@ -1,0 +1,5 @@
+databaseChangeLog:
+  - include:
+      file: db/changelog/1.0/1__create_schema.yml
+  - include:
+      file: db/changelog/1.0/2__insert_initial_data.yml

@@ -34,7 +34,7 @@ public class SecurityConfig {
             http
                     .csrf(AbstractHttpConfigurer::disable)
                     .authorizeHttpRequests(auth ->
-                            auth.requestMatchers("/auth/**", "/api-docs/**", "/swagger-ui/**", "/swagger-ui.html", "/h2-console/**")
+                            auth.requestMatchers("/auth/**", "/api-docs/**", "/swagger-ui/**")
                                     .permitAll()
                                     .anyRequest()
                                     .authenticated())
@@ -54,7 +54,7 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(List.of("http://localhost:4200")); // Replace with allowed origins
+        configuration.setAllowedOrigins(List.of("http://localhost:4200"));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE"));
         configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type"));
         configuration.setAllowCredentials(true);

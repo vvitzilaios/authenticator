@@ -1,6 +1,6 @@
 package com.sneakysquid.authenticator.configuration;
 
-import com.sneakysquid.authenticator.repo.UserRepository;
+import com.sneakysquid.authenticator.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

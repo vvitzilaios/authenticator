@@ -1,0 +1,190 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1
+      author: vvitzilaios
+      changes:
+        - createTable:
+            tableName: user
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: username
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+                    unique: true
+              - column:
+                  name: password
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: email
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+                    unique: true
+
+  - changeSet:
+      id: 2
+      author: vvitzilaios
+      changes:
+        - createTable:
+            tableName: group
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: name
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+                    unique: true
+              - column:
+                  name: description
+                  type: VARCHAR(255)
+
+  - changeSet:
+      id: 3
+      author: vvitzilaios
+      changes:
+        - createTable:
+            tableName: role
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: name
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+                    unique: true
+
+  - changeSet:
+      id: 4
+      author: vvitzilaios
+      changes:
+        - createTable:
+            tableName: authority
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: name
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+                    unique: true
+
+  - changeSet:
+      id: 5
+      author: vvitzilaios
+      changes:
+        - createTable:
+            tableName: user_group
+            columns:
+              - column:
+                  name: user_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: group_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+        - addForeignKeyConstraint:
+            constraintName: user_group_user_id_fk
+            baseTableName: user_group
+            baseColumnNames: user_id
+            referencedTableName: user
+            referencedColumnNames: id
+            onDelete: CASCADE
+        - addForeignKeyConstraint:
+            constraintName: user_group_group_id_fk
+            baseTableName: user_group
+            baseColumnNames: group_id
+            referencedTableName: group
+            referencedColumnNames: id
+            onDelete: CASCADE
+
+  - changeSet:
+      id: 6
+      author: vvitzilaios
+      changes:
+        - createTable:
+            tableName: group_role
+            columns:
+              - column:
+                  name: group_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: role_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+        - addForeignKeyConstraint:
+            constraintName: group_role_group_id_fk
+            baseTableName: group_role
+            baseColumnNames: group_id
+            referencedTableName: group
+            referencedColumnNames: id
+            onDelete: CASCADE
+        - addForeignKeyConstraint:
+            constraintName: group_role_role_id_fk
+            baseTableName: group_role
+            baseColumnNames: role_id
+            referencedTableName: role
+            referencedColumnNames: id
+            onDelete: CASCADE
+
+  - changeSet:
+      id: 7
+      author: vvitzilaios
+      changes:
+        - createTable:
+            tableName: role_authority
+            columns:
+              - column:
+                  name: role_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: authority_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+        - addForeignKeyConstraint:
+            constraintName: role_authority_role_id_fk
+            baseTableName: role_authority
+            baseColumnNames: role_id
+            referencedTableName: role
+            referencedColumnNames: id
+            onDelete: CASCADE
+        - addForeignKeyConstraint:
+            constraintName: role_authority_authority_id_fk
+            baseTableName: role_authority
+            baseColumnNames: authority_id
+            referencedTableName: authority
+            referencedColumnNames: id
+            onDelete: CASCADE

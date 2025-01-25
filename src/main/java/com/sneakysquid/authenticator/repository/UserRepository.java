@@ -1,4 +1,4 @@
-package com.sneakysquid.authenticator.repo;
+package com.sneakysquid.authenticator.repository;
 
 import com.sneakysquid.authenticator.domain.User;
 import org.springframework.data.jpa.repository.JpaRepository;

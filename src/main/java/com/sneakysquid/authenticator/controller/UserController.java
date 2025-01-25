@@ -34,9 +34,9 @@ public class UserController {
     }
 
     @PostMapping("/save")
-    public ResponseEntity<Void> save(@RequestBody UserDto dto) {
-        userService.save(dto);
-        return ResponseEntity.ok().build();
+    public ResponseEntity<UserDto> save(@RequestBody UserDto dto) {
+        UserDto savedUser = userService.save(dto);
+        return ResponseEntity.ok(savedUser);
     }
 
     @PostMapping("/delete")
