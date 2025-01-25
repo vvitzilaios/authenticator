@@ -3,12 +3,14 @@ package com.sneakysquid.authenticator.service;
 import com.sneakysquid.authenticator.configuration.JWTService;
 import com.sneakysquid.authenticator.domain.Group;
 import com.sneakysquid.authenticator.domain.User;
+import com.sneakysquid.authenticator.domain.dto.UserDto;
+import com.sneakysquid.authenticator.domain.dto.response.AuthenticationResponse;
 import com.sneakysquid.authenticator.domain.enums.GroupType;
 import com.sneakysquid.authenticator.repository.GroupRepository;
 import com.sneakysquid.authenticator.repository.UserRepository;
 import com.sneakysquid.authenticator.domain.dto.request.AuthenticationRequest;
 import com.sneakysquid.authenticator.domain.dto.request.RegisterRequest;
-import com.sneakysquid.authenticator.domain.dto.response.AuthenticationResponse;
+import com.sneakysquid.authenticator.transform.UserMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -30,23 +32,24 @@ public class AuthenticationService {
     private final AuthenticationManager authenticationManager;
     private final UserDetailsService userDetailsService;
     private final GroupRepository groupRepository;
+    private final UserMapper userMapper;
 
-    public AuthenticationResponse register(RegisterRequest request) {
+    public UserDto register(RegisterRequest request) {
         Optional<Group> group = groupRepository.findByName(GroupType.USER.name());
         User user = new User();
-        user.setEmail(request.getEmail());
         user.setUsername(request.getUsername());
         user.setPassword(passwordEncoder.encode(request.getPassword()));
         user.setGroups(Set.of(group.orElse(new Group(GroupType.USER.name()))));
-        user = userRepository.save(user);
-        var jwtToken = jwtService.generateToken(user);
-        return new AuthenticationResponse(jwtToken);
+        return userMapper.toDto(userRepository.save(user));
     }
 
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword()));
         UserDetails userDetails = userDetailsService.loadUserByUsername(request.getUsername());
-        var jwtToken = jwtService.generateToken(userDetails);
-        return new AuthenticationResponse(jwtToken);
+        String token = jwtService.generateToken(userDetails);
+        return AuthenticationResponse.builder()
+                .message("You have successfully logged in.")
+                .token(token)
+                .build();
     }
 }

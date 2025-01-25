@@ -1,5 +1,6 @@
 package com.sneakysquid.authenticator.controller;
 
+import com.sneakysquid.authenticator.domain.dto.UserDto;
 import com.sneakysquid.authenticator.domain.dto.request.AuthenticationRequest;
 import com.sneakysquid.authenticator.domain.dto.request.RegisterRequest;
 import com.sneakysquid.authenticator.domain.dto.response.AuthenticationResponse;
@@ -19,7 +20,7 @@ public class AuthenticationController {
     private final AuthenticationService authenticationService;
 
     @PostMapping("/register")
-    public ResponseEntity<AuthenticationResponse> register(@RequestBody RegisterRequest request) {
+    public ResponseEntity<UserDto> register(@RequestBody RegisterRequest request) {
         return ResponseEntity.ok(authenticationService.register(request));
     }
 

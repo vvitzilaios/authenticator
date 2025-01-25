@@ -29,24 +29,18 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             @NonNull HttpServletResponse response,
             @NonNull FilterChain filterChain
     ) throws ServletException, IOException {
-        // Extract Authorization header
         final String authenticationHeader = request.getHeader("Authorization");
         final String jwtToken;
         final String username;
 
-        // If no header or invalid format, skip processing
         if (authenticationHeader == null || !authenticationHeader.startsWith("Bearer ")) {
             filterChain.doFilter(request, response);
             return;
         }
 
-        // Extract JWT from header
         jwtToken = authenticationHeader.substring(7);
-
-        // Extract username from JWT
         username = jwtService.extractUsername(jwtToken);
 
-        // Validate token and set SecurityContext if not already authenticated
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
 
@@ -58,7 +52,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             }
         }
 
-        // Continue the filter chain
         filterChain.doFilter(request, response);
     }
 }

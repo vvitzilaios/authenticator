@@ -22,11 +22,6 @@ public class UserController {
         return userService.search(username);
     }
 
-    @GetMapping("/all")
-    public List<UserDto> getAllUsers() {
-        return userService.search("");
-    }
-
     @GetMapping("/{id}")
     public ResponseEntity<UserDto> getUserById(@PathVariable Long id) {
         UserDto dto = userService.getUserById(id);

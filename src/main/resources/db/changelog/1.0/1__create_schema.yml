@@ -1,6 +1,42 @@
 databaseChangeLog:
   - changeSet:
-      id: 1
+      id: create-user-sequence
+      author: vvitzilaios
+      changes:
+        - createSequence:
+            sequenceName: "user_seq"
+            startValue: 1
+            incrementBy: 1
+
+  - changeSet:
+      id: create-group-sequence
+      author: vvitzilaios
+      changes:
+        - createSequence:
+            sequenceName: "group_seq"
+            startValue: 1
+            incrementBy: 1
+
+  - changeSet:
+      id: create-role-sequence
+      author: vvitzilaios
+      changes:
+        - createSequence:
+            sequenceName: "role_seq"
+            startValue: 1
+            incrementBy: 1
+
+  - changeSet:
+      id: create-authority-sequence
+      author: vvitzilaios
+      changes:
+        - createSequence:
+            sequenceName: "authority_seq"
+            startValue: 1
+            incrementBy: 1
+
+  - changeSet:
+      id: create-user-table
       author: vvitzilaios
       changes:
         - createTable:
@@ -9,7 +45,8 @@ databaseChangeLog:
               - column:
                   name: id
                   type: BIGINT
-                  autoIncrement: true
+                  autoIncrement: false
+                  defaultValueSequenceNext: "user_seq"
                   constraints:
                     primaryKey: true
               - column:
@@ -23,15 +60,9 @@ databaseChangeLog:
                   type: VARCHAR(255)
                   constraints:
                     nullable: false
-              - column:
-                  name: email
-                  type: VARCHAR(255)
-                  constraints:
-                    nullable: false
-                    unique: true
 
   - changeSet:
-      id: 2
+      id: create-group-table
       author: vvitzilaios
       changes:
         - createTable:
@@ -40,7 +71,8 @@ databaseChangeLog:
               - column:
                   name: id
                   type: BIGINT
-                  autoIncrement: true
+                  autoIncrement: false
+                  defaultValueSequenceNext: "group_seq"
                   constraints:
                     primaryKey: true
               - column:
@@ -54,7 +86,7 @@ databaseChangeLog:
                   type: VARCHAR(255)
 
   - changeSet:
-      id: 3
+      id: create-role-table
       author: vvitzilaios
       changes:
         - createTable:
@@ -63,7 +95,8 @@ databaseChangeLog:
               - column:
                   name: id
                   type: BIGINT
-                  autoIncrement: true
+                  autoIncrement: false
+                  defaultValueSequenceNext: "role_seq"
                   constraints:
                     primaryKey: true
               - column:
@@ -74,7 +107,7 @@ databaseChangeLog:
                     unique: true
 
   - changeSet:
-      id: 4
+      id: create-authority-table
       author: vvitzilaios
       changes:
         - createTable:
@@ -83,7 +116,8 @@ databaseChangeLog:
               - column:
                   name: id
                   type: BIGINT
-                  autoIncrement: true
+                  autoIncrement: false
+                  defaultValueSequenceNext: "authority_seq"
                   constraints:
                     primaryKey: true
               - column:
@@ -94,7 +128,7 @@ databaseChangeLog:
                     unique: true
 
   - changeSet:
-      id: 5
+      id: create-user-group-table
       author: vvitzilaios
       changes:
         - createTable:
@@ -126,7 +160,7 @@ databaseChangeLog:
             onDelete: CASCADE
 
   - changeSet:
-      id: 6
+      id: create-group-role-table
       author: vvitzilaios
       changes:
         - createTable:
@@ -158,7 +192,7 @@ databaseChangeLog:
             onDelete: CASCADE
 
   - changeSet:
-      id: 7
+      id: create-role-authority-table
       author: vvitzilaios
       changes:
         - createTable:
