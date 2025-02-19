@@ -22,11 +22,6 @@ public class UserController {
         return userService.search(username);
     }
 
-    @GetMapping("/all")
-    public List<UserDto> getAllUsers() {
-        return userService.search("");
-    }
-
     @GetMapping("/{id}")
     public ResponseEntity<UserDto> getUserById(@PathVariable Long id) {
         UserDto dto = userService.getUserById(id);
@@ -34,9 +29,9 @@ public class UserController {
     }
 
     @PostMapping("/save")
-    public ResponseEntity<Void> save(@RequestBody UserDto dto) {
-        userService.save(dto);
-        return ResponseEntity.ok().build();
+    public ResponseEntity<UserDto> save(@RequestBody UserDto dto) {
+        UserDto savedUser = userService.save(dto);
+        return ResponseEntity.ok(savedUser);
     }
 
     @PostMapping("/delete")

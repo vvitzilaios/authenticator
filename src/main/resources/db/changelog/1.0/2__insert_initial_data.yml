@@ -1,0 +1,188 @@
+databaseChangeLog:
+  - changeSet:
+      id: 8
+      author: vvitzilaios
+      changes:
+        - insert:
+            tableName: user
+            columns:
+              - column:
+                  name: username
+                  value: admin@example.com
+              - column:
+                  name: password
+                  value: $2a$10$McSDEVa9Ov6XkncCaOVAeev6LXRSMXKkcg9bpSTmEgxn6MJzgBclK
+
+  - changeSet:
+      id: 9
+      author: vvitzilaios
+      changes:
+        - insert:
+            tableName: group
+            columns:
+              - column:
+                  name: name
+                  value: ADMIN
+        - insert:
+            tableName: group
+            columns:
+              - column:
+                  name: name
+                  value: USER
+        - insert:
+            tableName: group
+            columns:
+              - column:
+                  name: name
+                  value: GUEST
+
+  - changeSet:
+      id: 10
+      author: vvitzilaios
+      changes:
+        - insert:
+            tableName: role
+            columns:
+              - column:
+                  name: name
+                  value: ROLE_ADMIN
+        - insert:
+            tableName: role
+            columns:
+              - column:
+                  name: name
+                  value: ROLE_USER
+        - insert:
+            tableName: role
+            columns:
+              - column:
+                  name: name
+                  value: ROLE_GUEST
+
+  - changeSet:
+      id: 11
+      author: vvitzilaios
+      changes:
+        - insert:
+            tableName: authority
+            columns:
+              - column:
+                  name: name
+                  value: READ
+        - insert:
+            tableName: authority
+            columns:
+              - column:
+                  name: name
+                  value: WRITE
+        - insert:
+            tableName: authority
+            columns:
+              - column:
+                  name: name
+                  value: DELETE
+
+  - changeSet:
+      id: 12
+      author: vvitzilaios
+      changes:
+        - insert:
+            tableName: user_group
+            columns:
+              - column:
+                  name: user_id
+                  valueNumeric: 1
+              - column:
+                  name: group_id
+                  valueNumeric: 1
+
+  - changeSet:
+      id: 13
+      author: vvitzilaios
+      changes:
+        - insert:
+            tableName: group_role
+            columns:
+              - column:
+                  name: group_id
+                  valueNumeric: 1
+              - column:
+                  name: role_id
+                  valueNumeric: 1
+        - insert:
+            tableName: group_role
+            columns:
+              - column:
+                  name: group_id
+                  valueNumeric: 2
+              - column:
+                  name: role_id
+                  valueNumeric: 2
+        - insert:
+            tableName: group_role
+            columns:
+              - column:
+                  name: group_id
+                  valueNumeric: 3
+              - column:
+                  name: role_id
+                  valueNumeric: 3
+
+  - changeSet:
+      id: 14
+      author: vvitzilaios
+      changes:
+        - insert:
+            tableName: role_authority
+            columns:
+              - column:
+                  name: role_id
+                  valueNumeric: 1
+              - column:
+                  name: authority_id
+                  valueNumeric: 1
+        - insert:
+            tableName: role_authority
+            columns:
+              - column:
+                  name: role_id
+                  valueNumeric: 1
+              - column:
+                  name: authority_id
+                  valueNumeric: 2
+        - insert:
+            tableName: role_authority
+            columns:
+              - column:
+                  name: role_id
+                  valueNumeric: 1
+              - column:
+                  name: authority_id
+                  valueNumeric: 3
+        - insert:
+            tableName: role_authority
+            columns:
+              - column:
+                  name: role_id
+                  valueNumeric: 2
+              - column:
+                  name: authority_id
+                  valueNumeric: 1
+        - insert:
+            tableName: role_authority
+            columns:
+              - column:
+                  name: role_id
+                  valueNumeric: 2
+              - column:
+                  name: authority_id
+                  valueNumeric: 2
+        - insert:
+            tableName: role_authority
+            columns:
+              - column:
+                  name: role_id
+                  valueNumeric: 3
+              - column:
+                  name: authority_id
+                  valueNumeric: 1

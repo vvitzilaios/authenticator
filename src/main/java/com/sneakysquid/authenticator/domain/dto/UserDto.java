@@ -1,7 +1,12 @@
 package com.sneakysquid.authenticator.domain.dto;
 
-import com.sneakysquid.authenticator.domain.enums.RoleType;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+import java.util.List;
 
 @Getter
 @Setter
@@ -12,6 +17,5 @@ public class UserDto {
     private Long id;
     private String username;
     private String password;
-    private String email;
-    private RoleType roleType;
+    private List<String> authorities;
 }

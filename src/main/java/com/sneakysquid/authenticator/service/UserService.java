@@ -2,7 +2,7 @@ package com.sneakysquid.authenticator.service;
 
 import com.sneakysquid.authenticator.domain.User;
 import com.sneakysquid.authenticator.domain.dto.UserDto;
-import com.sneakysquid.authenticator.repo.UserRepository;
+import com.sneakysquid.authenticator.repository.UserRepository;
 import com.sneakysquid.authenticator.transform.UserMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
@@ -27,9 +27,9 @@ public class UserService {
                 .orElseThrow(() -> new ResourceNotFoundException("User not found")));
     }
 
-    public void save(UserDto dto) {
+    public UserDto save(UserDto dto) {
         User user = userMapper.toEntity(dto);
-        userRepository.save(user);
+        return userMapper.toDto(userRepository.save(user));
     }
 
     public void delete(UserDto dto) {

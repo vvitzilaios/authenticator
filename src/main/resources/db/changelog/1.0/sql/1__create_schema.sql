@@ -49,7 +49,7 @@ CREATE TABLE group_role
 );
 
 -- Role-Authority Mapping Table
-CREATE TABLE role_authorities
+CREATE TABLE role_authority
 (
     role_id      BIGINT NOT NULL,
     authority_id BIGINT NOT NULL,
