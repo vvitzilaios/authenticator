@@ -51,3 +51,6 @@ buildNumber.properties
 *.iml
 out
 gen
+src/main/java/com/sneakysquid/.DS_Store
+src/main/java/com/sneakysquid/authenticator/.DS_Store
+src/main/java/com/sneakysquid/authenticator/domain/.DS_Store
