@@ -5,7 +5,6 @@ import com.sneakysquid.authenticator.domain.dto.UserDto;
 import com.sneakysquid.authenticator.repository.UserRepository;
 import com.sneakysquid.authenticator.transform.UserMapper;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,11 +19,6 @@ public class UserService {
     public List<UserDto> search(String username) {
         return userMapper.toDtoList(
                 userRepository.findByUsernameContainingIgnoreCaseOrderByUsernameAsc(username));
-    }
-
-    public UserDto getUserById(Long id) {
-        return userMapper.toDto(userRepository.findUserById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("User not found")));
     }
 
     public UserDto save(UserDto dto) {

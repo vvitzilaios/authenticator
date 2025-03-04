@@ -1,6 +1,5 @@
 package com.sneakysquid.authenticator.service;
 
-import com.sneakysquid.authenticator.configuration.JWTService;
 import com.sneakysquid.authenticator.domain.Group;
 import com.sneakysquid.authenticator.domain.User;
 import com.sneakysquid.authenticator.domain.dto.UserDto;
@@ -11,6 +10,7 @@ import com.sneakysquid.authenticator.repository.UserRepository;
 import com.sneakysquid.authenticator.domain.dto.request.AuthenticationRequest;
 import com.sneakysquid.authenticator.domain.dto.request.RegisterRequest;
 import com.sneakysquid.authenticator.transform.UserMapper;
+import com.sneakysquid.authenticator.util.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -28,7 +28,6 @@ public class AuthenticationService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
-    private final JWTService jwtService;
     private final AuthenticationManager authenticationManager;
     private final UserDetailsService userDetailsService;
     private final GroupRepository groupRepository;
@@ -46,7 +45,7 @@ public class AuthenticationService {
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword()));
         UserDetails userDetails = userDetailsService.loadUserByUsername(request.getUsername());
-        String token = jwtService.generateToken(userDetails);
+        String token = JwtUtil.generateToken(userDetails);
         return AuthenticationResponse.builder()
                 .message("You have successfully logged in.")
                 .token(token)

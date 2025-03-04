@@ -1,5 +1,6 @@
 package com.sneakysquid.authenticator.configuration;
 
+import com.sneakysquid.authenticator.filter.JwtAuthenticationFilter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.context.annotation.Bean;

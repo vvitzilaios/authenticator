@@ -1,5 +1,6 @@
-package com.sneakysquid.authenticator.configuration;
+package com.sneakysquid.authenticator.filter;
 
+import com.sneakysquid.authenticator.util.JwtUtil;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -20,7 +21,6 @@ import java.io.IOException;
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
-    private final JWTService jwtService;
     private final UserDetailsService userDetailsService;
 
     @Override
@@ -30,21 +30,19 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             @NonNull FilterChain filterChain
     ) throws ServletException, IOException {
         final String authenticationHeader = request.getHeader("Authorization");
-        final String jwtToken;
-        final String username;
 
         if (authenticationHeader == null || !authenticationHeader.startsWith("Bearer ")) {
             filterChain.doFilter(request, response);
             return;
         }
 
-        jwtToken = authenticationHeader.substring(7);
-        username = jwtService.extractUsername(jwtToken);
+        final String jwtToken = authenticationHeader.replace("Bearer ", "");
+        final String username = JwtUtil.extractUsername(jwtToken);
 
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
 
-            if (jwtService.isTokenValid(jwtToken, userDetails)) {
+            if (JwtUtil.isTokenValid(jwtToken, userDetails)) {
                 UsernamePasswordAuthenticationToken authentication =
                         new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
                 authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));

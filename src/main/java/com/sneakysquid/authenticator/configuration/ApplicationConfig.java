@@ -2,6 +2,7 @@ package com.sneakysquid.authenticator.configuration;
 
 import com.sneakysquid.authenticator.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cloud.gateway.server.mvc.filter.BeforeFilterFunctions;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -12,6 +13,9 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.servlet.function.ServerRequest;
+
+import java.util.function.Function;
 
 @Configuration
 @RequiredArgsConstructor
@@ -41,5 +45,10 @@ public class ApplicationConfig {
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
         return config.getAuthenticationManager();
+    }
+
+    @Bean
+    public Function<ServerRequest, ServerRequest> addCustomHeaderFilter() {
+        return BeforeFilterFunctions.addRequestHeader("X-User-Username", "MyHeaderValue");
     }
 }

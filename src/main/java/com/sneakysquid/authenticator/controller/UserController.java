@@ -2,9 +2,7 @@ package com.sneakysquid.authenticator.controller;
 
 import com.sneakysquid.authenticator.domain.dto.UserDto;
 import com.sneakysquid.authenticator.service.UserService;
-import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,12 +18,6 @@ public class UserController {
     @GetMapping("/search")
     public List<UserDto> search(@RequestParam String username) {
         return userService.search(username);
-    }
-
-    @GetMapping("/{id}")
-    public ResponseEntity<UserDto> getUserById(@PathVariable Long id) {
-        UserDto dto = userService.getUserById(id);
-        return new ResponseEntity<>(dto, HttpStatusCode.valueOf(HttpServletResponse.SC_OK));
     }
 
     @PostMapping("/save")
