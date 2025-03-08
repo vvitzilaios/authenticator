@@ -1,7 +1,7 @@
 package com.sneakysquid.authenticator.service;
 
-import com.sneakysquid.authenticator.domain.Group;
 import com.sneakysquid.authenticator.domain.User;
+import com.sneakysquid.authenticator.domain.Group;
 import com.sneakysquid.authenticator.domain.dto.UserDto;
 import com.sneakysquid.authenticator.domain.dto.response.AuthenticationResponse;
 import com.sneakysquid.authenticator.domain.enums.GroupType;
@@ -43,12 +43,22 @@ public class AuthenticationService {
     }
 
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
-        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword()));
-        UserDetails userDetails = userDetailsService.loadUserByUsername(request.getUsername());
-        String token = JwtUtil.generateToken(userDetails);
-        return AuthenticationResponse.builder()
-                .message("You have successfully logged in.")
-                .token(token)
-                .build();
+        try {
+            authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword()));
+            UserDetails userDetails = userDetailsService.loadUserByUsername(request.getUsername());
+            User user = (User) userDetails;
+            user.updateLastLogin();
+            userRepository.save(user);
+            String token = JwtUtil.generateToken(userDetails);
+            return AuthenticationResponse.builder()
+                    .message("You have successfully logged in.")
+                    .token(token)
+                    .build();
+        } catch (Exception e) {
+            return AuthenticationResponse.builder()
+                    .message("Wrong email and/or password.")
+                    .build();
+        }
     }
 }
